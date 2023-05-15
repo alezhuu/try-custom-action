@@ -22,20 +22,13 @@ jobs:
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
-      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-      - uses: actions/checkout@v3
-
-      # Runs a single command using the runners shell
-      - name: Run a one-line script
-        run: echo Hello, world!
-
       # Runs a set of commands using the runners shell
-      - name: custom actions try
+      - name: custom_try
         uses: alezhuu/check-message-action@main
         with:
           push_message: ${{ github.event.head_commit.message }}
           pull_message: ${{ github.event.pull_request.title }}
 
       - name: Get Result
-        run: echo "The result is ${{ steps.check_message.outputs.result }}"
+        run: echo "The result is ${{ steps.custom_try.outputs.result }}"
       
