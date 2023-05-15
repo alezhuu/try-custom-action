@@ -1,1 +1,1 @@
-Edito la función a startswith
+Prueba desde VSCode
