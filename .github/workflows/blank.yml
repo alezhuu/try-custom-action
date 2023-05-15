@@ -33,5 +33,9 @@ jobs:
       - name: custom actions try
         uses: alezhuu/check-message-action@main
         with:
-          message: ${{ github.event.head_commit.message }}
+          push_message: ${{ github.event.head_commit.message }}
+          pull_message: ${{ github.event.pull_request.title }}
+
+      - name: Get Result
+        run: echo "The result is ${{ steps.check_message.outputs.result }}"
       
