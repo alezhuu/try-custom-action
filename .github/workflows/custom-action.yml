@@ -22,6 +22,7 @@ jobs:
       id: pr
       uses: octokit/request-action@v2.x
       with:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         route: GET /repos/${{ github.repository }}/pulls/${{ github.event.pull_request.number }}
         headers: |
           Authorization: token ${{ secrets.GITHUB_TOKEN }}
