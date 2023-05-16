@@ -21,7 +21,8 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - id: last_msg
         name: Get Last Commit Message
-        run: echo "::set-output name=last_commit_message::$(echo ${{ steps.pr.outputs.data }} | jq -r '.[-1].commit.message')"
+        #echo "::set-output name=last_commit_message::$(echo ${{ steps.pr.outputs.data }} | jq -r '.[-1].commit.message')"
+        run: echo  ${{ steps.pr.outputs.data }} 
         
       - id: check_message
         name: Check message
