@@ -1,2 +1,2 @@
-Testing new js
-js con setFailed
+Changed pull_message 
+Check which commit commeny it taked
