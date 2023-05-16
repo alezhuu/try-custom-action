@@ -9,9 +9,6 @@ jobs:
     name: Check comment with custom action
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout Code
-        uses: actions/checkout@v2
-
       - name: Get Pull Request Information
         id: pr
         uses: octokit/request-action@v2.x
