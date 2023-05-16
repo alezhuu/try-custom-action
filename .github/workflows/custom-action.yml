@@ -24,8 +24,16 @@ jobs:
         route: GET /repos/${{ github.repository }}/pulls/${{ github.event.pull_request.number }}/commits
       env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      
+    - name: Install jq
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y jq 
+    - id: last_msg
+      name: Get Last Commit Message
+      run: echo "::set-output name=last_commit_message::$(echo ${{ steps.pr.outputs.data }} | jq -r '.[-1].commit.message')"
     - name: check message
       uses: alezhuu/check-message-action@main
       with:
-        pull_info: ${{ steps.pr.outputs.data | fromJson | last.commit.message }}
+        pull_info: ${{ steps.last_msg.outputs.last_commit_message  }}
       
