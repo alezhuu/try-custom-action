@@ -30,11 +30,10 @@ jobs:
       # echo "commit_message=$(echo ${{ steps.pr.outputs.data }} | jq -r '.commits[-1].commit.message')" >> "$GITHUB_OUTPUT"
       run: |
         commit_message=$(echo ${{ steps.pr.outputs.data }} | jq -r '.[-1].commit.message')
-        echo "::set-output name=commit_message::$commit_message"
+        echo "$commit_message"
 
     - name: check message
       uses: alezhuu/check-message-action@main
       with:
-        push_message: ${{ github.event.head_commit.message }}
         pull_message: ${{ steps.last-commit.outputs.commit_message }}
       
