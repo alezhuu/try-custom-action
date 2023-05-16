@@ -28,9 +28,8 @@ jobs:
     - name: Get Last Commit Message
       id: last-commit
       # echo "commit_message=$(echo ${{ steps.pr.outputs.data }} | jq -r '.commits[-1].commit.message')" >> "$GITHUB_OUTPUT"
-      run: |
-        commit_message=$(echo ${{ steps.pr.outputs.data }} | jq -r '.[-1].commit.message')
-        echo "$commit_message"
+      run: echo "${{ steps.pr.outputs.data }} | jq -r '.[-1].commit.message')"
+
 
     - name: check message
       uses: alezhuu/check-message-action@main
