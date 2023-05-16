@@ -15,10 +15,30 @@ jobs:
     name: Check comment with custom action
     runs-on: ubuntu-latest
     steps:
-      # Runs a set of commands using the runners shell
-      - name: check message
-        uses: alezhuu/check-message-action@main
-        with:
-          push_message: ${{ github.event.head_commit.message }}
-          pull_message: ${{ github.event.head_commit.message }}
+    - name: Checkout Code
+      uses: actions/checkout@v2
+      
+    - name: Get Pull Request Information
+      id: pr
+      uses: octokit/request-action@v2.x
+      with:
+        # GitHub API endpoint GET /repos/{owner}/{repo}/pulls/{pull_number}/commits --/repos/alezhuu/alezhuu/try-custom-action/pulls/
+        route: GET /repos/${{ github.repository }}/pulls/${{ github.event.pull_request.number }}/commits
+      env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+    - name: Get ENDOPOING
+      id: endpoin
+      run: echo "::set-output name=endpoint::$(echo ${{ steps.pr.outputs.data }})"
+      
+    - name: Get Last Commit Message
+      id: last-commit
+      run: echo "::set-output name=commit_message::$(echo ${{ steps.pr.outputs.data }} | jq -r '.commits[-1].commit.message')"
+
+    - name: check message
+      uses: alezhuu/check-message-action@main
+      with:
+        push_message: ${{ github.event.head_commit.message }}
+        pull_message: ${{ steps.last-commit.outputs.commit_message }}
+
       
