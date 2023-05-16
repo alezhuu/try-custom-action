@@ -19,8 +19,12 @@ jobs:
           route: GET /repos/${{ github.repository }}/pulls/${{ github.event.pull_request.number }}/commits
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - id: last_msg
+        name: Get Last Commit Message
+        run: echo "::set-output name=last_commit_message::$(echo ${{ steps.pr.outputs.data }} | jq -r '.[-1].commit.message')"
+
     outputs:
-      pr_data: ${{ steps.pr.outputs.data }}
+      last_commit_message: ${{ steps.last_msg.outputs.last_commit_message }}
 
   custom-action-try:
     runs-on: ubuntu-latest
@@ -30,4 +34,4 @@ jobs:
         name: Check message
         uses: alezhuu/check-message-action@main
         with:
-          pull_info: ${{ needs.get-pr-data.outputs.pr_data }}
+          pull_info: ${{ needs.get-pr-data.outputs.last_commit_message }}
