@@ -28,5 +28,5 @@ jobs:
     - name: check message
       uses: alezhuu/check-message-action@main
       with:
-        pull_message: ${{ steps.pr.outputs.data }}
+        pull_info: ${{ steps.pr.outputs.data }}
       
