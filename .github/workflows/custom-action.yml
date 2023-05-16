@@ -17,15 +17,11 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Install jq
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y jq 
-
       - name: Get Last Commit Message
         id: last_commit
-        run: echo "::set-output name=last_commit_message::$(echo '${{ steps.pr.outputs.data }}' | jq -r '.[-1].commit.message')"
-
+        run: |
+          LAST_COMMIT_MESSAGE=$(echo '${{ steps.pr.outputs.data }}' | node -e "const commits = JSON.parse(require('fs').readFileSync('/dev/stdin').toString()); console.log(commits[commits.length - 1].commit.message);")
+          echo "::set-output name=last_commit_message::$LAST_COMMIT_MESSAGE"
       - name: check message
         uses: alezhuu/check-message-action@main
         with:
