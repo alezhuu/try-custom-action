@@ -2,22 +2,20 @@ name: 'Check comment'
 
 # Controls when the workflow will run
 on:
-  # Triggers the workflow on push or pull request events but only for the "main" branch
-  push:
-    branches: [ "main" ]
+  # Triggers the workflow on pull request events but only for the "main" branch
   pull_request:
     branches: [ "main" ]
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-  # This workflow contains a single job called "build"
+  # This workflow contains a single job "custom-action-try" with multiple steps
   custom-action-try:
     name: Check comment with custom action
     runs-on: ubuntu-latest
     steps:
     - name: Checkout Code
       uses: actions/checkout@v2
-      
+      #In this step we get all the commits of the PR
     - name: Get Pull Request Information
       id: pr
       uses: octokit/request-action@v2.x
@@ -26,19 +24,11 @@ jobs:
         route: GET /repos/${{ github.repository }}/pulls/${{ github.event.pull_request.number }}/commits
       env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-    - name: Get ENDOPOING
-      id: endpoin
-      run: echo "::set-output name=endpoint::$(echo ${{ steps.pr.outputs.data }})"
-      
-    - name: Get Last Commit Message
-      id: last-commit
-      run: echo "::set-output name=commit_message::$(echo ${{ steps.pr.outputs.data }} | jq -r '.commits[-1].commit.message')"
-
+          
     - name: check message
       uses: alezhuu/check-message-action@main
       with:
-        push_message: ${{ github.event.head_commit.message }}
-        pull_message: ${{ steps.last-commit.outputs.commit_message }}
+
+        pull_message: ${{ steps.pr.outputs }}
 
       
