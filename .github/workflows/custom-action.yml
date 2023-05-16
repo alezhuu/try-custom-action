@@ -1,31 +1,32 @@
-name: Check comment
+name: 'Check comment'
 
+# Controls when the workflow will run
 on:
+  # Triggers the workflow on pull request events but only for the "main" branch
   pull_request:
-    branches:
-      - main
+    branches: [ "main" ]
 
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-  get-pr-data:
+  # This workflow contains a single job "custom-action-try" with multiple steps
+  custom-action-try:
+    name: Check comment with custom action
     runs-on: ubuntu-latest
     steps:
-      - id: first_step
-        name: Checkout Code
-        uses: actions/checkout@v2
-      - id: pr
-        name: Get Pull Request Information
-        uses: octokit/request-action@v2.x
-        with:
-          route: GET /repos/${{ github.repository }}/pulls/${{ github.event.pull_request.number }}/commits
-        env:
+    - name: Checkout Code
+      uses: actions/checkout@v2
+      #In this step we get all the commits of the PR
+    - name: Get Pull Request Information
+      id: pr
+      uses: octokit/request-action@v2.x
+      with:
+        # GitHub API endpoint GET /repos/{owner}/{repo}/pulls/{pull_number}/commits --/repos/alezhuu/alezhuu/try-custom-action/pulls/
+        route: GET /repos/${{ github.repository }}/pulls/${{ github.event.pull_request.number }}/commits
+      env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      - id: last_msg
-        name: Get Last Commit Message
-        #echo "::set-output name=last_commit_message::$(echo ${{ steps.pr.outputs.data }} | jq -r '.[-1].commit.message')"
-        run: echo  ${{ steps.pr.outputs.data }} 
-        
-      - id: check_message
-        name: Check message
-        uses: alezhuu/check-message-action@main
-        with:
-          pull_info: ${{ steps.last_msg.outputs.last_commit_message }}
+          
+    - name: check message
+      uses: alezhuu/check-message-action@main
+      with:
+        pull_info: ${{ steps.pr.outputs.data }}
+      
