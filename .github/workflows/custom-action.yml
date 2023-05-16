@@ -20,7 +20,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     outputs:
-      pr_data: ${{ steps.pr.outputs.data.commit }}
+      pr_data: ${{ steps.pr.outputs.data }}
 
   custom-action-try:
     runs-on: ubuntu-latest
