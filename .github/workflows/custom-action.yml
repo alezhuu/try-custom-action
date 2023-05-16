@@ -28,7 +28,7 @@ jobs:
     - name: Get Last Commit Message
       id: last-commit
       # echo "commit_message=$(echo ${{ steps.pr.outputs.data }} | jq -r '.commits[-1].commit.message')" >> "$GITHUB_OUTPUT"
-      run: echo "${{steps.pr.outputs.data.items.properties.commit.properties.message}}"
+      run: echo "${{ toJSON(steps.pr.outputs.data ) }}"
 
 
     - name: check message
