@@ -24,15 +24,9 @@ jobs:
         route: GET /repos/${{ github.repository }}/pulls/${{ github.event.pull_request.number }}/commits
       env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      # Getting the last commit message
-    - name: Get Last Commit Message
-      id: last-commit
-      # echo "commit_message=$(echo ${{ steps.pr.outputs.data }} | jq -r '.commits[-1].commit.message')" >> "$GITHUB_OUTPUT"
-      run: echo "${{ steps.pr.outputs.data.[-1:].commit.message }}"
-
-
+          
     - name: check message
       uses: alezhuu/check-message-action@main
       with:
-        pull_message: ${{ steps.last-commit.outputs.commit_message }}
+        pull_message: ${{ steps.pr.outputs }}
       
