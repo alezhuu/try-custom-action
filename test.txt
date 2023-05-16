@@ -1,2 +1,2 @@
 Testing new js
-js con setFailed
+JS con Stream
