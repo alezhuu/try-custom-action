@@ -1,6 +1,4 @@
-# This is a basic workflow to help you get started with Actions
-
-name: Check comment
+name: 'Check comment'
 
 # Controls when the workflow will run
 on:
@@ -10,25 +8,17 @@ on:
   pull_request:
     branches: [ "main" ]
 
-  # Allows you to run this workflow manually from the Actions tab
-  workflow_dispatch:
-
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
   # This workflow contains a single job called "build"
-  build:
-    # The type of runner that the job will run on
+  custom-action-try:
+    name: Check comment with custom action
     runs-on: ubuntu-latest
-
-    # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
       # Runs a set of commands using the runners shell
-      - name: custom_try
+      - name: check message
         uses: alezhuu/check-message-action@main
         with:
           push_message: ${{ github.event.head_commit.message }}
           pull_message: ${{ github.event.pull_request.title }}
-
-      - name: Get Result
-        run: echo "The result is ${{ steps.custom_try.outputs.result }}"
       
