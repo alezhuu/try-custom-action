@@ -20,5 +20,5 @@ jobs:
         uses: alezhuu/check-message-action@main
         with:
           push_message: ${{ github.event.head_commit.message }}
-          pull_message: ${{ github.event.pull_request.title }}
+          pull_message: ${{ github.event.head_commit.message }}
       
