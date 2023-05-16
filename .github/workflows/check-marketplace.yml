@@ -1,8 +1,15 @@
 name: "Marketplace Check"
-on: [pull_request]
+on:
+  pull_request:
+    types:
+      - opened
+      - edited
+      - reopened
+      - synchronize
 
 jobs:
   build:
+    name: check with marketplace
     runs-on: ubuntu-latest
     env:
       GITHUB_TOKEN: ${{ secrets.SOME_TOKEN }}
