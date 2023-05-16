@@ -22,11 +22,12 @@ jobs:
       id: pr
       uses: octokit/request-action@v2.x
       with:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        route: GET /repos/${{ github.repository }}/pulls/${{ github.event.pull_request.number }}
-        headers: |
-          Authorization: token ${{ secrets.GITHUB_TOKEN }}
-          Accept: application/vnd.github.v3+json
+        # GitHub API endpoint GET /repos/{owner}/{repo}/pulls/{pull_number}/commits
+        route: GET /repos/${{ github.repository_owner }}/${{ github.repository }}/pulls/${{ github.event.pull_request.number }}
+        mediaType: | # The | is significant!
+          format: raw
+      env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
     - name: Get Last Commit Message
       id: last-commit
