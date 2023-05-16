@@ -22,8 +22,8 @@ jobs:
       id: pr
       uses: octokit/request-action@v2.x
       with:
-        # GitHub API endpoint GET /repos/{owner}/{repo}/pulls/{pull_number}/commits
-        route: GET /repos/${{ github.repository_owner }}/${{ github.repository }}/pulls/${{ github.event.pull_request.number }}
+        # GitHub API endpoint GET /repos/{owner}/{repo}/pulls/{pull_number}/commits --/repos/alezhuu/alezhuu/try-custom-action/pulls/
+        route: GET /repos/${{ github.repository }}/pulls/${{ github.event.pull_request.number }}
         mediaType: | # The | is significant!
           format: raw
       env:
