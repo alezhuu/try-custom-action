@@ -24,8 +24,12 @@ jobs:
         run: |
           LAST_COMMIT_MESSAGE=$(echo '${{ steps.pr.outputs.data }}' | node -e "const commits = JSON.parse(require('fs').readFileSync('/dev/stdin').toString()); console.log(commits[commits.length - 1].commit.message);")
           echo "last_commit_message=$LAST_COMMIT_MESSAGE" >> $GITHUB_ENV
-      #Third step: call custom action to check message format
+      #Third step: call custom action to check message format 
       - name: check message
         uses: alezhuu/check-message-action@main
+        # Pass to the action last commit message and a string that a message should begin with 
         with:
           message:  ${{ env.last_commit_message }}
+
+          message_begginig: "#Esto es un ejemplo"
+
