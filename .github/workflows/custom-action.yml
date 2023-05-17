@@ -28,4 +28,4 @@ jobs:
       - name: check message
         uses: alezhuu/check-message-action@main
         with:
-          pull_info:  ${{ env.last_commit_message }}
+          message:  ${{ env.last_commit_message }}
