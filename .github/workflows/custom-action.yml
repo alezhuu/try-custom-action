@@ -30,4 +30,5 @@ jobs:
         # Pass to the action last commit message and a string that a message should begin with 
         with:
           message:  ${{ env.last_commit_message }}
+          message_beginning: "/^#Esto es un ejemplo/"
 
