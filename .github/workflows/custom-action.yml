@@ -9,11 +9,20 @@ jobs:
     name: Check comment with custom action
     runs-on: ubuntu-latest
     steps:
+      #First step: call GitHub API to obtains all the commits
+      - name: Get Pull Request Information
+        id: pr
+        uses: octokit/request-action@v2.x
+        with:
+          route: GET /repos/${{ github.repository }}/pulls/${{ github.event.pull_request.number }}/commits
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       #Second step: get last commit message and save it to a variable
-      - name: Get last commit message
-        id: lastCommit
+      - name: Get Last Commit Message
+        id: last_commit
+        # Using JavaScript and Node.js to process previous step output ${{ steps.pr.outputs.data }} and getting the message
         run: |
-          LAST_COMMIT_MESSAGE=$(git log -1 --pretty=format:%B)
+          LAST_COMMIT_MESSAGE=$(echo '${{ steps.pr.outputs.data }}' | node -e "const commits = JSON.parse(require('fs').readFileSync('/dev/stdin').toString()); console.log(commits[commits.length - 1].commit.message);")
           echo "last_commit_message=$LAST_COMMIT_MESSAGE" >> $GITHUB_ENV
       #Third step: call custom action to check message format 
       - name: check message
@@ -22,4 +31,3 @@ jobs:
         with:
           message:  ${{ env.last_commit_message }}
           message_beginning: "#Esto es un ejemplo"
-
