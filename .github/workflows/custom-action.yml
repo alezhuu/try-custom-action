@@ -31,5 +31,5 @@ jobs:
         with:
           message:  ${{ env.last_commit_message }}
 
-          message_begginig: "#Esto es un ejemplo"
+          message_begginig: "/^#Esto es un ejemplo/i"
 
