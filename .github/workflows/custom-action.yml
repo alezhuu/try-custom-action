@@ -15,7 +15,7 @@ jobs:
       - name: Get last commit message
         id: lastCommit
         run: |
-          LAST_COMMIT_MESSAGE=$(echo "$(git log -1 --pretty=format:%B)")
+          LAST_COMMIT_MESSAGE=$(git log -1 --pretty=format:%B)
           echo "last_commit_message=$LAST_COMMIT_MESSAGE" >> $GITHUB_ENV
       #Third step: call custom action to check message format 
       - name: check message
